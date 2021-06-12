@@ -1,5 +1,5 @@
 #include <iostream>
-#include <ctime>
+#include <time.h>
 #include <fstream>
 
 using namespace std;
@@ -22,7 +22,6 @@ void push(element* &stack, int value)
 void push_from1_to10(element* &stack, int value)
 {
     value = (rand() % 10 ) + 1;
-
     element* el=new element;
     el->number=value;
     el->next=stack;
@@ -44,7 +43,7 @@ void pop(element* &stack)
     }
 }
 
-bool is_Empty(element(* stack))
+bool is_Empty(element* stack)
 {
     if(stack==nullptr)
     {
@@ -58,7 +57,22 @@ bool is_Empty(element(* stack))
     }
 }
 
-void top(element* stack)
+bool is_Empty_parzyste(element* stack)
+{
+    if(stack==nullptr)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
+
+
+char top(element* stack)
 {
     cout<<"Element na wierzchu to: "<<stack->number<<endl;
 }
@@ -103,6 +117,61 @@ void reverse() //wynik.txt zapisuje się w buildzie qt creatora, trzeba wejsc do
     wyn.close();
 }
 
+void wczytajParzyste(element* &stack)
+{
+    ifstream plik;
+    plik.open("liczby.txt");
+    int liczba;
+    while(!plik.eof())
+    {
+        plik>>liczba;
+        if(liczba%2==0)
+        {
+            push(stack, liczba);
+        }
+    }
+
+    plik.close();
+}
+void wyswietlanie(element* &stack)
+{
+    while(!is_Empty_parzyste(stack))
+    {
+        cout<<top(stack);
+        pop(stack);
+    }
+}
+void parzyste()
+{
+   element* stack=nullptr;
+   wczytajParzyste(stack);
+   is_Empty_parzyste(stack);
+   wyswietlanie(stack);
+
+}
+
+void ile_Elementow(element* &stack)
+{
+    int licznik=0;
+    if(stack==nullptr)
+    {
+        cout<<"Stos jest pusty. Liczba elementow wynosi 0. "<<endl;
+    }
+    else
+    {
+
+        while(stack!=nullptr)
+        {
+            //cout<<"Element stosu: "<<stack->number<<endl;
+            stack = stack -> next;
+            licznik++;
+        }
+        cout<<"W stosie jest "<<licznik<<" elementow"<<endl;
+    }
+
+}
+
+
 int main()
 {
     srand(time(NULL));
@@ -116,8 +185,9 @@ int main()
     cout<<"4) Pobranie elementu ze stosu "<<endl;
     cout<<"5) Usuniecie wszystkich elementow ze stosu "<<endl;
     cout<<"6) Odwrocenie kolejnosci "<<endl;
-    cout<<"7) Wyjscie z programu "<<endl;
-    cout<<""<<endl;
+    cout<<"7) Zliczanie elementow stosu "<<endl;
+    cout<<"8) Wczytywanie tylko parzystych elementow do stosu "<<endl;
+    cout<<"9) Wyjscie z programu "<<endl;
     while(true)
     {
 
@@ -146,8 +216,13 @@ int main()
             reverse(); //wynik.txt zapisuje się w buildzie qt creatora, trzeba wejsc do folderu
             break;
         case 7:
-            exit(0);
+            ile_Elementow(stack);
             break;
+        case 8:
+            parzyste();
+            break;
+        case 9:
+            exit(0);
         default:
             cout<<"Nie ma takiej opcji."<<endl;
 
