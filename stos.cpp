@@ -119,7 +119,7 @@ void wczytajParzyste(element* &stack)
     ifstream plik;
     plik.open("liczby.txt");
     int liczba;
-    while(plik>>liczba)a
+    while(plik>>liczba)
     {
         if(liczba%2==0)
         {
