@@ -69,9 +69,6 @@ bool is_Empty_parzyste(element* stack)
     }
 }
 
-
-
-
 char top(element* stack)
 {
     cout<<"Element na wierzchu to: "<<stack->number<<endl;
@@ -122,9 +119,8 @@ void wczytajParzyste(element* &stack)
     ifstream plik;
     plik.open("liczby.txt");
     int liczba;
-    while(!plik.eof())
+    while(plik>>liczba)a
     {
-        plik>>liczba;
         if(liczba%2==0)
         {
             push(stack, liczba);
@@ -133,21 +129,20 @@ void wczytajParzyste(element* &stack)
 
     plik.close();
 }
-void wyswietlanie(element* &stack)
+void wyswietlanie(element* stack)
 {
-    while(!is_Empty_parzyste(stack))
-    {
-        cout<<top(stack);
-        pop(stack);
-    }
-}
-void parzyste()
+       while(stack!=nullptr)
+        {
+            cout<<stack->number<<" ";
+            stack = stack -> next;
+        }
+        cout << endl;
+ }
+void parzyste(element* &stack)
 {
-   element* stack=nullptr;
-   wczytajParzyste(stack);
-   is_Empty_parzyste(stack);
-   wyswietlanie(stack);
 
+   wczytajParzyste(stack);
+   wyswietlanie(stack);
 }
 
 void ile_Elementow(element* &stack)
@@ -207,6 +202,10 @@ int main()
             pop(stack);
             break;
         case 4:
+        if (is_Empty_parzyste(stack)) {
+                cout << "pusty stos" << endl;
+        break;
+        }
             top(stack);
             break;
         case 5:
@@ -219,7 +218,7 @@ int main()
             ile_Elementow(stack);
             break;
         case 8:
-            parzyste();
+            parzyste(stack);
             break;
         case 9:
             exit(0);
